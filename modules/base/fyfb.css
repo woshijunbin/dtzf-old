@@ -1,0 +1,72 @@
+@charset "utf-8";
+
+
+*{margin:0px;padding: 0px;font-family:"微软雅黑";}
+html,body,.wrap,.right,#container{height:100%;}
+a{text-decoration: none;color: #000;}
+em{font-style: normal;}
+.clearfix{overflow: hidden;*zoom:1;}
+.shawdow{
+    -moz-box-shadow: 2px 2px 1px #888888;
+    -webkit-box-shadow: 2px 2px 1px #888888;
+    box-shadow: 2px 2px 1px #888888;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#888888')";
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#888888');
+}
+
+/*  左侧栏  */
+.left{background-color: #fff; position: absolute; z-index: 99;  width:420px;top:20px;left:10px; border-radius: 4px;}
+#dis_close{ border-radius: 0 4px 4px 0;z-index: 99; position: absolute;top:58px; left:430px; height: 50px;width: 20px;cursor: pointer;background: url(list_left_tab.png) repeat center center;    background-color: #fff;}
+#dis_close em {display: block; height: 100%; background: url(./indent_btn.png) left center no-repeat;}
+.left_hid{left:-420px !important;}
+.dis_open{left:0px !important;}
+.open{background-position: -15px center !important;}
+
+
+.s_input .layui-input,.s_input .tt,.s_input a{border:0px;height: 38px;line-height: 38px;}
+.s_input .layui-form-select{width: 100px;display: inline-block;border-right: 1px solid #e8e8e8;}
+.s_input .tt{margin-left: 10px; width: 270px;}
+.s_input a{display: inline-block;width: 30px;}
+
+
+
+.s_select .layui-input{text-align: center;height: 50px; background-color: #f2f2f2;line-height: 50px;}
+
+.s_sort{height: 38px;}
+.s_sort li.s{position: relative; cursor: pointer; width: 104px;border-right:1px solid #f2f2f2; text-align: center;float: left;line-height: 38px;}
+.s_sort .s ul.ss{background-color: #fff; position: absolute; display: none; border: 1px solid #f2f2f2;top:38px;}
+.s_sort .ss{width: 103px;}
+.ss a:hover{color: red;display: block;}
+
+.dis_display{}
+.dd{overflow: auto;max-height: 450px;}
+.dd_wrap{padding:20px;border-top: 1px solid #f2f2f2;}
+.ddw_left{width: 142px;float: left;margin-right: 10px;}
+.ddw_left img{height: 106px;width: 100%;}
+.ddw_right{ }
+.ddw_right h1{line-height: 1.8;}
+.ddwr_p{color: #999;}
+.ddwr_price{color: #F95656;}
+.ddwr_aver {font-size: 12px;}
+
+
+/*  map 自定义覆盖物  */
+.detail {position: relative;float: left;font-size: 14px;font-weight: bold; border-radius: 5px;}
+.detail_price{display: inline-block; padding: 6px; background-color: #FD7D7D;color: #fff;}
+.detail_deco{ background-color: #FFF;padding:6px;display: none;}
+.detail_deco em{color:red;}
+.detail_price:hover{background-color:#F83333;color: #fff; }
+.detail_price:hover~.san{border-top: 10px solid #F83333;}
+.detail_price:hover+.detail_deco{display: inline-block;}
+.san{
+    position: absolute;
+    bottom: -10px;
+    left: 5px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid #FD7D7D;
+}
+
+

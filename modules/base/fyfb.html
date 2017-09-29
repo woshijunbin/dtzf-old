@@ -1,0 +1,290 @@
+	<!-- <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+ -->
+ <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>房源分布</title>
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=evvQ1QHZGXraeG4yi6eXNPjFHLZGXwVT"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>    
+    <script type="text/javascript" src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js"></script>
+    <link rel="stylesheet" href="resources/layui/css/layui.css"  media="all">
+    <link rel="stylesheet" type="text/css" href="modules/base/fyfb.css">
+</head>
+<body>
+<!-- wrap start -->
+<div class="wrap" >
+    <!-- left start -->
+    <div class="left shawdow">
+        <!-- dis_box start -->
+        <div class="dis_box">
+            <!-- dis_search start -->
+            <div class="dis_search layui-form">
+                <!-- s_input start -->
+                <div class="s_input">
+                    <select name="interest" lay-filter="">
+                        <option value="0">新房</option>
+                        <option value="1">二手房</option>
+                    </select>
+                    <input class="tt" type="text" name="" placeholder="输入小区">
+                    <a href="javascript:;" onclick="h()"><i class="layui-icon" style="font-size: 20px;">&#xe615;</i>  </a>
+                </div>
+                <!-- s_input end -->
+                <!-- s_select start -->
+                <div id="adb" class="s_select layui-form">
+                    <select id = "xzq" name="interest" lay-filter="g">
+                        <option value="">全市找房</option>
+                    </select>
+                </div>
+                <!-- s_select end -->
+                <!-- s_sort start -->
+               <div class="s_sort">
+                    <ul>
+                        <li class="s"><a id="s_default" href="javascript:;" style="display: block;">默认</a></li>
+                        <li class="s">
+                            <div data-value data-param = "sTPri">总价</div>
+                            <ul class="ss"  id="showTotalPri">
+                                <li><a data-value="0">价格从低到高</a></li>
+                                <li><a data-value="1">价格从高到低</a></li>
+                            </ul>
+                        </li>
+                        <li class="s">
+                            <div data-value data-param = "showHx">户型</div>
+                            <ul class="ss"  id="showHx">
+                                <li><a data-value="0">一室</a></li>
+                                <li><a data-value="1">两室</a></li>
+                                <li><a data-value="2">两室以上</a></li>
+                            </ul>
+                        </li >
+                        <li class="s">
+                            <div data-value data-param = "showArea">面积</div>
+                            <ul class="ss"  id="showArea">
+                                <li><a data-value="0">50平米以下</a></li>
+                                <li><a data-value="1">50-100平米</a></li>
+                                <li><a data-value="2">100平米以上</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- s_sort end -->
+            </div>
+            <!-- dis_search end -->
+            <!-- dis_display start -->
+            <div class="dis_display">
+            	<div class="dd"></div>
+            </div>
+            <!-- dis_display end -->
+        </div>
+        <!-- dis_box end -->
+    </div>
+    <!-- left end -->
+    <!-- dis_close start -->
+    <div id="dis_close" class="shawdow"><em></em></div>
+    <!-- dis_close end -->
+    <!-- right start -->
+   <div class="right"><div id="container"></div></div>
+   <!-- right end -->
+</div> 
+<!-- wrap end -->
+
+<script src="resources/layui/layui.js" charset="utf-8"></script>
+<script src="modules/base/houseDetail.js" charset="utf-8"></script>
+<script type='text/javascript'>
+var _fyInfo, _defHouse,
+paramss = {
+    "dictId":'',
+    "showTotalPri":'',
+    "showHx":'',
+    "showArea":'',
+    "communityID":'',
+}
+__main()
+layui.use(['form'], function(){
+    var form = layui.form
+    form.on('select(g)', function(data){
+        paramss['dictId'] = data.value
+        /* $.ajax({
+            type: "post",
+            url: '',
+            async: true,
+            cache: false,
+            data: paramss,
+            dataType:"json",
+            success: function (result) {
+                setTemplate(result)
+            },
+            error: function (err, e, a) {
+            }
+        })
+        */
+        setTemplate(hdInfo2)
+        return false;
+    });
+})
+
+// get当前城市所有行政区
+function __main() {
+    /*$.ajax({
+        type:"GET",
+        cache: false,
+        async : false,
+        data:'',
+        url:"modules/base/areass.json",
+        dataType: "json",
+        success: function(f){
+            _fyInfo = f
+            initMap()
+        },
+    })*/
+    _fyInfo =_fyInfox
+    initMap()
+}
+
+// 地图初始化。显示当前城市所有行政区 
+function initMap() {
+    var pArray = []
+    for(index in _fyInfo) {
+        var fy = _fyInfo[index]
+        pArray.push(new BMap.Point(fy.PointX,fy.PointY))
+        $("#xzq").append("<option value="+fy.dictId+">"+fy.RegionName+"</option>")
+    }
+    window.map = new BMap.Map("container", { enableMapClick: false }); // 创建地图实例，禁止点击地图底图
+    map.disableDoubleClickZoom()// 禁止双击缩放
+    map.enableScrollWheelZoom(true) // 支持滚动缩放
+    map.setMaxZoom(19)
+    map.setMinZoom(11)
+    map.setViewport(pArray)
+    setTimeout(function () {
+        Areashows()
+    }, 100)
+}
+
+// 缩放，拖拽事件
+function noAreaClick() {
+    // var data = "SouthWestLON=" + map.getBounds().getSouthWest().lng + "&SouthWestLAT=" + map.getBounds().getSouthWest().lat + "&NorthEastLON=" + map.getBounds().getNorthEast().lng + "&NorthEastLAT=" + map.getBounds().getNorthEast().lat + "&FL=3&PointGo=" + PointGo
+    // ajax获取小区数据  即sqInfo
+    // 提交参数为data，即地图可视区域四个边角坐标
+    /* 
+    $.ajax({
+        type:"GET",
+        cache: false,
+        data:data
+        url:".modules/base/baidumap/sqs.json",
+        dataType: "json",
+        success: function(_sqInfo){
+            Villageshows(_sqInfo)
+        }
+    })
+    */
+    Villageshows(_sqInfo)
+
+}
+
+// 住宅小区点击事件
+function getHDetail(communityID) {
+    paramss['communityID'] = communityID
+    /* $.ajax({
+        type: "GET",
+        url: '',
+        async: true,
+        cache: false,
+        data: paramss,
+        dataType:"json",
+        success: function (result) {
+            setTemplate(result)
+        },
+        error: function (err, e, a) {
+        }
+    })
+    */
+    setTemplate(hdInfo1)
+}
+
+
+// 地址搜索栏 搜索事件
+function h(){
+    paramss['locals'] = $(".tt").val()
+    /* $.ajax({
+        type: "get",
+        url: '',
+        async: true,
+        cache: false,
+        data: paramss,
+        dataType:"json",
+        success: function (result) {
+            setTemplate(result)
+        },
+        error: function (err, e, a) {
+        }
+    })*/
+    setTemplate(hdInfo3)
+}
+
+// 默认按钮点击事件
+$("#s_default").click(function(e) {
+    var _divs = $(".s").find("div")
+    _divs.data('value',"")
+    _divs[0].innerHTML = "总价"
+    _divs[1].innerHTML = "户型"
+    _divs[2].innerHTML = "面积"
+    if(e.target.nodeName !== 'A') return;
+    if(_defHouse) {
+        $(".dd").empty().html(_defHouse)
+    }
+    e.stopPropagation()
+})
+
+// 精确选项查找事件
+$(".ss").on("click","a",function(e) {
+    var _a = $(e.target),   _showSelect = _a.parents("ul:first").prev(),  params ={}
+
+    _showSelect.html( _a.html() ).data("value",_a.data("value"))
+    $(".s").find("ul").css("display","none")
+
+    $(".s").find("div").each(function() {
+        params[$(this).data("param")] = $(this).data("value")
+    })
+
+    /* $.ajax({
+        type: "post",
+        url: '',
+        async: true,
+        cache: false,
+        data: params,
+        dataType:"json",
+        success: function (result) {
+            setTemplate(result)
+        },
+        error: function (err, e, a) {
+        }
+    })
+    */
+    setTemplate(hdInfo2)
+})
+
+/*ie8   随机出现点击不捕获事件*/
+window.dis_close.onclick = function() {
+    $('.left').toggleClass("left_hid")
+    $('#dis_close').toggleClass("dis_open")
+    $("em").toggleClass("open")
+}
+
+// 精确选项显示隐藏
+$(".s").hover(function() {
+    $(this).find("ul").css("display","block")
+},function() {
+     $(this).find("ul").css("display","none")
+})
+
+
+
+</script>
+<script type="text/javascript" src="modules/base/fyfb.js" charset="utf-8"></script>    
+
+</body>
+</html>
+
