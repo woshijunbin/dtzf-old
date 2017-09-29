@@ -155,14 +155,28 @@ function initMap() {
     window.map = new BMap.Map("container", { enableMapClick: false }); // 创建地图实例，禁止点击地图底图
     map.disableDoubleClickZoom()// 禁止双击缩放
     map.enableScrollWheelZoom(true) // 支持滚动缩放
-    map.setMaxZoom(19)
-    map.setMinZoom(11)
+    map.enableScrollWheelZoom(11, 20);
     map.setViewport(pArray)
     setTimeout(function () {
         Areashows()
     }, 100)
 }
-
+//点击大区事件
+function areaClick(areaId) {
+ // ajax获取小区数据  即sqInfo
+ // 提交参数为当前点击行政区id
+ /*
+ $.ajax({
+     type:"GET",
+     cache: false,
+     url:"../baidumap/sqs.json",
+     dataType: "json",
+     success: function(_sqInfo){
+         Villageshows(_sqInfo)
+     }
+ })*/ 
+ Villageshows(_sqInfo)
+}
 // 缩放，拖拽事件
 function noAreaClick() {
     // var data = "SouthWestLON=" + map.getBounds().getSouthWest().lng + "&SouthWestLAT=" + map.getBounds().getSouthWest().lat + "&NorthEastLON=" + map.getBounds().getNorthEast().lng + "&NorthEastLAT=" + map.getBounds().getNorthEast().lat + "&FL=3&PointGo=" + PointGo

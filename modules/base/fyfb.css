@@ -36,6 +36,7 @@ em{font-style: normal;}
 .s_sort li.s{position: relative; cursor: pointer; width: 104px;border-right:1px solid #f2f2f2; text-align: center;float: left;line-height: 38px;}
 .s_sort .s ul.ss{background-color: #fff; position: absolute; display: none; border: 1px solid #f2f2f2;top:38px;}
 .s_sort .ss{width: 103px;}
+.ss a{display: block;}
 .ss a:hover{color: red;display: block;}
 
 .dis_display{}

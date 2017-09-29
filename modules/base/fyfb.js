@@ -1,7 +1,3 @@
-
-
-
-
 // 地址解析器
 var myGeo = new BMap.Geocoder()
 // 大区集合
@@ -19,22 +15,21 @@ var _areaId = ""
 
 
 // 地图缩放级别更改结束时
+/***** map.setMaxZoom(19),map.setMinZoom(11)会触发zoomend事件 ****/
 map.addEventListener('zoomend', eventHandle)
 // 地图拖拽结束
+/****  centerAndZoom会触发moveend事件，且多次触发  ****/
 map.addEventListener('moveend', eventHandle)
 function eventHandle(e) {
     var zoom = map.getZoom()
     if(zoom >= 17) {
-       noAreaClick()
+    	//areaClick：点击行政区执行的地图缩放
+    	//noAreaClick：滚动地图缩放，鼠标拖拽
+    	_areaId?areaClick(_areaId):noAreaClick()
     }else {
         Areashows()
     }
 }
-
-
-
-
-
 
 
 
@@ -88,9 +83,10 @@ function Areashows() {
                 div.onclick = function(e) {
                     var divE = this
                     removeGroundOverlay()
-                    //isAreaClick = true
+                    // 记录行政区id，记录执行了点击行政区操作
                      _areaId = divE.data
-                    resetMap(divE.data,fyInfo)                   
+                    map.removeEventListener("moveend", eventHandle);
+                    resetMap(divE.data,fyInfo) 
                 }
                 return div
             }
@@ -165,45 +161,10 @@ function resetMap(dictId,fyInfo) {
             }
         }
     }
+    // 触发地图 缩放事件
     map.centerAndZoom(pointDict, 17)
+    map.addEventListener('moveend', eventHandle)
 }
-
-
-
-/*-----------houseDetail 显示关闭--------------
-function codeChange(){
-    if($("#code_area")[0].offsetWidth >0){
-        $("#code_open").hide();
-        $("#code_close").show();
-    }else{  
-        $("#code_close").hide();
-        $("#code_open").show();
-    }
-}
-function toggleFooter () {
- 
-    var code_area = $('#code_area');
-    var map = $('#container');
-    var toggleImg = $('#toggle-img');
-    if(code_area[0].offsetWidth <=0){//如果已经关闭，则打开
-        code_area.animate({ 
-            width: 500
-        }, 200);
-    map.animate({
-        width: myWidth - 785
-    },200);
-    }else{
-        code_area.animate({ 
-             width: 0
-        }, 200);
-    map.animate({
-        width: myWidth - 285
-    },200);
-    }
-    setTimeout(function(){codeChange()},200);
-}*/
-
-
 
 
 
@@ -216,20 +177,6 @@ function setTemplate(houseInfoList) {
     }else {
         _d.empty()
         for(var i = 0;i<houseInfoList.length;i++) {
-            /*var _ddwrap = $("<div class='dd_wrap clearfix'></div>"),
-            _ddwleft = $("<div class='ddw_left'><a href='#'><img src='"+houseInfoList[i].DefaultPic+"'></a></div>"),
-            _ddwright = $("<div class='ddw_right'></div>"),
-            _h1 = $(" <h1>"+houseInfoList[i].HouseInfo['Title']+"</h1>"),
-            _ddwrp = $("<p class='ddwr_p'></p>"),
-            _ddwrprice = $("<strong class='ddwr_price'>"+houseInfoList[i].HouseInfo['PriceTotal']+"万元</strong>") ,
-            _ddwraver = $("<em class='ddwr_aver'>（"+houseInfoList[i].HouseInfo['PriceSingle']+"/㎡）</em>"),
-            _dr = $("<br>"),
-            _em = $("<em>"+houseInfoList[i].HouseInfo['Hou_Name']+"</em>")
-           
-            _ddwrp.append(_ddwrprice).append(_ddwraver).append(_dr).append(_em)
-            _ddwright.append(_h1).append(_ddwrp)
-            _ddwrap.append(_ddwleft).append(_ddwright)
-             */
             var content = 
             "<div class='dd_wrap clearfix'>"+
                 "<div class='ddw_left'><a href='#'><img src='"+houseInfoList[i].DefaultPic+"'></a></div>"+
@@ -241,22 +188,8 @@ function setTemplate(houseInfoList) {
                         "<br>"+
                         "<em>"+houseInfoList[i].HouseInfo['Hou_Name']+"</em>"+
                     "</p></div></div>"
-            //_d.append(_ddwrap)
             _d.append(content)
         }
         _defHouse=  (_defHouse?_defHouse:_d.html())
     }
-                    /*<div class='dd_wrap clearfix'>
-                        <div class="ddw_left"><a href="#"><img src="./1.jpg"></a></div>
-                        <div class="ddw_right">
-                            <h1>中山小，屏东小，电梯小高层，阳台外扩，可两房半</h1>
-                            <p class="ddwr_p">
-                                <strong class="ddwr_price">288万元</strong>
-                                <em class="ddwr_aver">（37402元/㎡）</em>
-                                <br>
-                                <em>温泉花园</em>
-                            </p>
-                        </div>
-                    </div>*/
-
 }
