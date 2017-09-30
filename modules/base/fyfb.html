@@ -95,6 +95,7 @@
 <script src="modules/base/houseDetail.js" charset="utf-8"></script>
 <script type='text/javascript'>
 var _fyInfo, _defHouse,
+// ajax参数对象
 paramss = {
     "dictId":'',
     "showTotalPri":'',
@@ -161,6 +162,7 @@ function initMap() {
         Areashows()
     }, 100)
 }
+
 //点击大区事件
 function areaClick(areaId) {
  // ajax获取小区数据  即sqInfo
@@ -177,6 +179,7 @@ function areaClick(areaId) {
  })*/ 
  Villageshows(_sqInfo)
 }
+
 // 缩放，拖拽事件
 function noAreaClick() {
     // var data = "SouthWestLON=" + map.getBounds().getSouthWest().lng + "&SouthWestLAT=" + map.getBounds().getSouthWest().lat + "&NorthEastLON=" + map.getBounds().getNorthEast().lng + "&NorthEastLAT=" + map.getBounds().getNorthEast().lat + "&FL=3&PointGo=" + PointGo
@@ -254,40 +257,51 @@ $("#s_default").click(function(e) {
 
 // 精确选项查找事件
 $(".ss").on("click","a",function(e) {
-    var _a = $(e.target),   _showSelect = _a.parents("ul:first").prev(),  params ={}
+    var _a = $(e.target),   _showSelect = _a.parents("ul:first").prev()
 
     _showSelect.html( _a.html() ).data("value",_a.data("value"))
     $(".s").find("ul").css("display","none")
 
     $(".s").find("div").each(function() {
-        params[$(this).data("param")] = $(this).data("value")
+        paramss[$(this).data("param")] = $(this).data("value")
     })
 
-    /* $.ajax({
+    /*
+    $.ajax({
         type: "post",
-        url: '',
+        url: 'centerController',
         async: true,
         cache: false,
-        data: params,
-        dataType:"json",
+        data: paramss,
+        dataType:"html",
         success: function (result) {
-            setTemplate(result)
+            //setTemplate(result)
+            console.log('结束')
         },
         error: function (err, e, a) {
+        	console.log('错误')
         }
-    })
-    */
+    })*/
+    
     setTemplate(hdInfo2)
 })
 
-/*ie8   随机出现点击不捕获事件*/
+// 左侧房源详细栏滑动显示隐藏效果
 window.dis_close.onclick = function() {
     $('.left').toggleClass("left_hid")
     $('#dis_close').toggleClass("dis_open")
     $("em").toggleClass("open")
 }
+// 设置左侧房源详细栏高度
+function setHeight() {
+	var he = $("#container").height() - 187
+    $(".dd").css("maxHeight",he)
+}
+window.onload = setHeight
+window.onresize = setHeight
 
-// 精确选项显示隐藏
+
+// 精确选项[总价，户型，面积]显示隐藏
 $(".s").hover(function() {
     $(this).find("ul").css("display","block")
 },function() {

@@ -6,6 +6,14 @@
 
 <web-app>
 
+    <servlet>
+        <servlet-name>centerController</servlet-name>
+        <servlet-class>io.junwei.servlet.CenterAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>centerController</servlet-name>
+        <url-pattern>/centerController</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>modules/base/fyfb.html</welcome-file>
         <welcome-file>modules/base/fyfb.jsp</welcome-file>

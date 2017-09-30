@@ -40,7 +40,7 @@ em{font-style: normal;}
 .ss a:hover{color: red;display: block;}
 
 .dis_display{}
-.dd{overflow: auto;max-height: 450px;}
+.dd{overflow: auto;}
 .dd_wrap{padding:20px;border-top: 1px solid #f2f2f2;}
 .ddw_left{width: 142px;float: left;margin-right: 10px;}
 .ddw_left img{height: 106px;width: 100%;}
