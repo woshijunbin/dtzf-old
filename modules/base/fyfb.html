@@ -156,7 +156,7 @@ function initMap() {
     window.map = new BMap.Map("container", { enableMapClick: false }); // 创建地图实例，禁止点击地图底图
     map.disableDoubleClickZoom()// 禁止双击缩放
     map.enableScrollWheelZoom(true) // 支持滚动缩放
-    map.enableScrollWheelZoom(11, 20);
+    //map.setMinZoom(13) // 会导致地图加载不出，原因不清楚
     map.setViewport(pArray)
     setTimeout(function () {
         Areashows()
