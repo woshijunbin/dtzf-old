@@ -1,0 +1,182 @@
+
+<!-- <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    
+    <link rel="stylesheet" href="../../resources/layui/css/layui.css"media="all">
+    <link rel="stylesheet" type="text/css" href="fyfb.css">
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="../../resources/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=evvQ1QHZGXraeG4yi6eXNPjFHLZGXwVT"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js"></script>
+</head>
+<body>
+<!-- wrap start -->
+<div class="wrap">
+    <!-- 地图 开始 -->
+    <div class="right"><div id="container"></div></div>
+    <!-- 地图 结束 -->
+    
+    <!-- mo_footer 开始 -->
+    <div class="mo_footer">
+        <div class="collapse">
+            <div style="float: left;padding-left: 15px;">找好房</div>
+            <div style="text-align: right;padding-right: 15px;"><i class="layui-icon" >&#xe602;</i></div>
+        </div>
+        <div class="top hid">
+            <div class="s_sort">
+                <ul>
+                    <li class="s"><a id="s_default" href="javascript:;" style="display: block;">默认</a></li>
+                    <li class="s">
+                        <div data-value data-param = "sTPri">总价</div>
+                        <ul class="ss"  id="showTotalPri">
+                            <li><a data-value="0">价格从低到高</a></li>
+                            <li><a data-value="1">价格从高到低</a></li>
+                        </ul>
+                    </li>
+                    <li class="s">
+                        <div data-value data-param = "showArea">面积</div>
+                        <ul class="ss"  id="showArea">
+                            <li><a data-value="0">50平米以下</a></li>
+                            <li><a data-value="1">50-100平米</a></li>
+                            <li><a data-value="2">100平米以上</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- mo_footer 结束 -->
+</div> 
+<!-- wrap end -->
+<script src="houseDetail.js" charset="utf-8"></script>
+<script type='text/javascript'>
+var _fyInfo, _defHouse,
+paramss = {
+    "dictId":'',    
+    "showTotalPri":'',
+    "showHx":'',
+    "showArea":'',
+    "communityID":'',
+}
+__main()
+
+
+$('.mo_footer').click(function() {
+    $(this).toggleClass("spread") 
+    $(this).find(".top").toggleClass("hid")
+    
+})
+
+
+layui.use(['form'], function(){
+    var form = layui.form
+    form.on('select(g)', function(data){
+        paramss['dictId'] = data.value
+        /*获取地图数据*/
+        setTemplate(hdInfo2)
+        return false;
+    });
+})
+
+// get当前城市所有行政区
+function __main() {
+    /*获取地图数据*/
+    _fyInfo =_fyInfox
+    initMap()
+}
+
+// 地图初始化。显示当前城市所有行政区 
+function initMap() {
+    var pArray = []
+    for(index in _fyInfo) {
+        var fy = _fyInfo[index]
+        pArray.push(new BMap.Point(fy.PointX,fy.PointY))
+        $("#xzq").append("<option value="+fy.dictId+">"+fy.RegionName+"</option>")
+    }
+    window.map = new BMap.Map("container", { enableMapClick: false }); // 创建地图实例，禁止点击地图底图
+    map.disableDoubleClickZoom()// 禁止双击缩放
+    map.enableScrollWheelZoom(true) // 支持滚动缩放
+    map.centerAndZoom(new BMap.Point(119.297721,26.087438), 13);
+    setTimeout(function () {
+        Areashows()
+    }, 100)
+}
+
+//点击大区事件
+function areaClick(areaId) {
+    /*获取地图数据*/
+ Villageshows(_sqInfo)
+}
+
+// 缩放，拖拽事件
+function noAreaClick() {
+    /*获取地图数据*/
+    Villageshows(_sqInfo)
+
+}
+
+// 住宅小区点击事件
+function getHDetail(communityID) {
+    paramss['communityID'] = communityID
+    /*获取地图数据*/
+    setTemplate(hdInfo1)
+}
+
+
+// 地址搜索栏 搜索事件
+function h(){
+    paramss['locals'] = $(".tt").val()
+    /*获取地图数据*/
+    Villageshows(_sqInfo)
+    setTemplate(hdInfo3)
+}
+
+// 默认按钮点击事件
+$("#s_default").click(function(e) {
+    var _divs = $(".s").find("div")
+    _divs.data('value',"")
+    _divs[0].innerHTML = "总价"
+    _divs[1].innerHTML = "户型"
+    if(e.target.nodeName !== 'A') return;
+    if(_defHouse) {
+        $(".dd").empty().html(_defHouse)
+    }
+    e.stopPropagation()
+})
+
+// 精确选项查找事件
+$(".ss").on("click","a",function(e) {
+    var a = $(e.target),   showVal = a.parent().parent().siblings('div');
+    showVal.html( a.html() ).data("value",a.data("value"));
+    
+    $(".s").find("ul").css("display","none");
+    
+    $(".s").find("div").each(function() {
+        paramss[$(this).data("param")] = $(this).data("value")
+    })
+    /*获取地图数据*/
+    setTemplate(hdInfo2);
+})
+
+$(".s").click(function(e) {
+    $(".s").find("ul").css("display","none");// 所有选项隐藏
+    var ul = $(this).find("ul");   // 触发点击的选项
+    ul.css("display")=="none"?
+            ul.css("display","block"):ul.css("display","none")
+})
+
+
+</script>
+<script type="text/javascript" src="fyfb.js" charset="utf-8"></script>    
+
+</body>
+</html>
+

@@ -12,13 +12,15 @@ var isAreaClick = false
 var _areaId = ""
 
 
+
+
 // 地图缩放级别更改结束时
 /***** map.setMaxZoom(19),map.setMinZoom(11)会触发zoomend事件 ****/
 map.addEventListener('zoomend', eventHandle)
 // 地图拖拽结束
 /****  centerAndZoom会触发moveend事件，且多次触发  ****/
 map.addEventListener('moveend', eventHandle)
-map.addEventListener('touchstart',function(e){
+map.addEventListener('touchend',function(e){
     e.domEvent.srcElement.click()
 });
 function eventHandle(e) {
@@ -59,7 +61,7 @@ function Areashows() {
                 var div = this._div = document.createElement("div")
                 div.style.position = "absolute"
                 div.style.zIndex = BMap.Overlay.getZIndex(this._point.lat)
-                div.style.background = "url(modules/base/map_points.png)"
+                div.style.background = "url(map_points.png)"
                 div.style.color = "white"
                 div.style.height = "50px"
                 div.style.width = "90px"
@@ -85,7 +87,7 @@ function Areashows() {
                     var divE = this
                     removeGroundOverlay()
                     // 记录行政区id，记录执行了点击行政区操作
-                    _areaId = divE.data
+                     _areaId = divE.data
                     map.removeEventListener("moveend", eventHandle);
                     resetMap(divE.data,fyInfo) 
                 }
