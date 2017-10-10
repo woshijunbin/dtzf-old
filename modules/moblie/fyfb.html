@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport"content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    
     <link rel="stylesheet" href="../../resources/layui/css/layui.css"media="all">
     <link rel="stylesheet" type="text/css" href="fyfb.css">
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
@@ -31,26 +30,27 @@
             <div style="text-align: right;padding-right: 15px;"><i class="layui-icon" >&#xe602;</i></div>
         </div>
         <div class="top hid">
-            <div class="s_sort">
-                <ul>
-                    <li class="s"><a id="s_default" href="javascript:;" style="display: block;">默认</a></li>
-                    <li class="s">
-                        <div data-value data-param = "sTPri">总价</div>
-                        <ul class="ss"  id="showTotalPri">
-                            <li><a data-value="0">价格从低到高</a></li>
-                            <li><a data-value="1">价格从高到低</a></li>
-                        </ul>
-                    </li>
-                    <li class="s">
-                        <div data-value data-param = "showArea">面积</div>
-                        <ul class="ss"  id="showArea">
-                            <li><a data-value="0">50平米以下</a></li>
-                            <li><a data-value="1">50-100平米</a></li>
-                            <li><a data-value="2">100平米以上</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+			<ul>
+			    <li class="s">
+			    	<div id="s_default" class="sifter" data-value data-param = "sTPri">默认  <i class="layui-icon">&#xe61a;</i></div>
+			    </li>
+			    <li class="s">
+			        <div class="sifter" data-value data-param = "sTPri">总价 <i class="layui-icon">&#xe61a;</i></div>
+			        <ul class="ss hid"  id="showTotalPri">
+			            <li><a data-value="0">价格从低到高</a></li>
+			            <li><a data-value="1">价格从高到低</a></li>
+			        </ul>
+			    </li>
+			    <li class="s">
+			        <div class="sifter" data-value data-param = "showArea">面积 <i class="layui-icon">&#xe61a;</i></div>
+			        <ul class="ss hid"  id="showArea">
+			            <li><a data-value="0">50平米以下</a></li>
+			            <li><a data-value="1">50-100平米</a></li>
+			            <li><a data-value="2">100平米以上</a></li>
+			        </ul>
+			    </li>
+			</ul>
+			
         </div>
     </div>
     <!-- mo_footer 结束 -->
@@ -69,11 +69,21 @@ paramss = {
 __main()
 
 
-$('.mo_footer').click(function() {
-    $(this).toggleClass("spread") 
-    $(this).find(".top").toggleClass("hid")
-    
-})
+
+window.onload = loading
+function loading() {
+	// top栏 高度
+	$(".top").css("height",$(document).height()-$('.collapse').height())
+	// 折叠展开top栏
+	$('.collapse').click(function() {
+    	$(this).siblings(".top").toggleClass("hid")
+	})
+	$('.sifter').click(function() {
+		console.log($(this).siblings(".ss"))
+		$(this).siblings(".ss").toggleClass("hid")
+	})
+}
+
 
 
 layui.use(['form'], function(){
@@ -152,6 +162,7 @@ $("#s_default").click(function(e) {
     e.stopPropagation()
 })
 
+
 // 精确选项查找事件
 $(".ss").on("click","a",function(e) {
     var a = $(e.target),   showVal = a.parent().parent().siblings('div');
@@ -166,12 +177,6 @@ $(".ss").on("click","a",function(e) {
     setTemplate(hdInfo2);
 })
 
-$(".s").click(function(e) {
-    $(".s").find("ul").css("display","none");// 所有选项隐藏
-    var ul = $(this).find("ul");   // 触发点击的选项
-    ul.css("display")=="none"?
-            ul.css("display","block"):ul.css("display","none")
-})
 
 
 </script>
