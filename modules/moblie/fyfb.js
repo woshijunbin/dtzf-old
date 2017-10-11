@@ -69,6 +69,7 @@ function Areashows() {
                 div.style.padding = "20px 0"
                 div.style.lineHeight = "24px"
                 div.style.fontSize = "16px"
+                div.style.boxSizing = "content-box"
                 div.data =    fyInfo[i].dictId
 
                 var span = this._span = document.createElement("span")
@@ -117,8 +118,7 @@ function Villageshows(sqInfo) {
     for (var i = 0; i < sqInfo.length; i++) {
         if( sqInfo[i].SecondAveragePrice > 0) {
             var point = new BMap.Point(sqInfo[i].PointX, sqInfo[i].PointY)
-           //VillageLabel = new BMap.Label("<div class='single_price clearfix'  onmouseenter='addZindex(this)'> <div class='single_price_left'><span class='single_price_num'>" + sqInfo[i].SecondAveragePrice + "万</span><em class='san'></em></div><span class='single_name' >  " + sqInfo[i].shopName+ "<em>"+sqInfo[i].HouNum + "</em>套</span></div></a> ",
-           VillageLabel = new BMap.Label("  <div class='detail shawdow' onclick = 'getHDetail("+ sqInfo[i].CommunityID+")'  onmouseenter='addZindex(this)'><a class='detail_price'>"+sqInfo[i].SecondAveragePrice+"<em>万</em></a><span class='detail_deco'>" + sqInfo[i].shopName+ "  <em>"+sqInfo[i].HouNum + "</em>套</span><em class='san'></em></div> ",
+           VillageLabel = new BMap.Label("  <div class='detail shawdow' onclick = 'getHDetail("+ sqInfo[i].CommunityID+")'  ><a class='detail_price'>"+sqInfo[i].SecondAveragePrice+"<em>万</em></a><span class='detail_deco'>" + sqInfo[i].shopName+ "  <em>"+sqInfo[i].HouNum + "</em>套</span><em class='san'></em></div> ",
             {    
                 offset: new BMap.Size( - 35, -40),
                 position: point
@@ -146,11 +146,6 @@ function removeGroundOverlay() {
     }   
 }
 
-/*-----------小区显示优先级--------------*/
-function addZindex(ele){
-    zIndex++
-    $(ele).closest('label').css('z-index',zIndex)
-}  
 
 /*-----------resetMap--------------*/
 // dictId 行政区id

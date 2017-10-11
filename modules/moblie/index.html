@@ -1,0 +1,210 @@
+
+<!-- <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <link rel="stylesheet" type="text/css" href="fyfb.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <script type="text/javascript" src="fx.js"></script>
+    <script type="text/javascript" src="touch.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=evvQ1QHZGXraeG4yi6eXNPjFHLZGXwVT"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js"></script>
+</head>
+<body>
+    <div class="page-group">
+        <div class="page page-current">
+            <div class="content">
+                <!--  html正文  -->
+                <!-- wrap start -->
+                <div class="wrap">
+                    <!-- 地图 开始 -->
+                    <div class="right"><div id="container"></div></div>
+                    <!-- 地图 结束 -->
+                    
+                    <!-- mo_footer 开始 -->
+                    <div class="mo_footer">
+                        <!-- collapse start -->
+                        <div class="collapse clearfix">
+                            <div style="float: left;">找好房</div>
+                            <div style="text-align: right;"> <span class="icon icon-up"></span></div>
+                        </div>
+                        <!-- collapse end -->
+                        <!-- top start -->
+                        <div class="top hid">
+                            <ul>
+                                <li class="s">
+                                    <div id="s_default"  data-value data-param = "sTPri">默认&nbsp;<span class="icon icon-menu"></span></div>
+                                </li>
+                                <li class="s">
+                                    <div class="create-actions1" data-value data-param = "sTPri">总价&nbsp;<span class="icon icon-menu"></span></div>
+                                </li>
+                                <li class="s">
+                                    <div class="create-actions2" data-value data-param = "showArea">面积&nbsp;<span class="icon icon-menu"></span></div>
+                                </li>
+                            </ul>
+                            <!-- 套房展示 start -->
+                            <div class="dd"></div>
+                            <!-- 套房展示 end -->
+                        </div>
+                        <!-- top end -->
+                    </div>
+                    <!-- mo_footer 结束 -->
+                </div> 
+                <!-- wrap end -->    
+            </div>
+        </div>
+    </div>
+<script src="houseDetail.js" charset="utf-8"></script>
+<script type='text/javascript'>
+var _fyInfo, _defHouse,
+paramss = {
+    "dictId":'',    
+    "showTotalPri":'',
+    "showHx":'',
+    "showArea":'',
+    "communityID":'',
+}
+__main()
+// get当前城市所有行政区
+function __main() {
+    /*获取地图数据*/
+    _fyInfo =_fyInfox
+    initMap()
+}
+
+window.onload = function() {
+	// top栏 高度
+	$(".top").css("height",$(document).height()-$('.collapse').height()-50);
+	// 折叠展开top栏
+	$('.collapse').on('click',collapse);
+    $(".top").on('swipeDown',collapse);
+    //默认按钮
+	$("#s_default").click(function(e) {
+	    /*重置排序顺序*/
+	    e.stopPropagation()
+	})
+
+
+	$(".create-actions1").on('click', function () {
+	    var buttons1 = [
+	        {text: '请选择',label: true,color:'danger',},
+	        {
+	          text: '价格从低到高',
+              color:'label',
+	          onClick: function() {
+	            //do
+                setTemplate(hdInfo2)
+	          }
+	        },
+	        {
+	          text: '价格从高到低',
+	          color:'label',
+	          onClick: function() {
+	            //do
+	          }
+	        }
+	      ];
+	    var buttons2 = [
+	        {text: '取消',bg: 'danger'}
+	      ];
+	    var groups = [buttons1, buttons2];
+	    $.actions(groups);
+	});
+
+	$('.create-actions2').on('click', function () {
+	    var buttons1 = [
+	        {text: '请选择',label: true,color:'danger',},
+	        {
+	          text: '50平米以下',
+	          color:'label',
+	          onClick: function() {
+	            //do
+	          }
+	        },
+	        {
+	          text: '50-100平米',
+	          color:'label',
+	          onClick: function() {
+	            //do
+	          }
+	        },
+	        {
+	            text: '100平米以上',
+	            color:'label',
+	            onClick: function() {
+	              //do
+	            }
+	          },
+	      ];
+	    var buttons2 = [
+	        {text: '取消',bg: 'danger'}
+	      ];
+	    var groups = [buttons1, buttons2];
+	    $.actions(groups);
+	});
+}
+function collapse(){
+    $('.collapse').toggleClass('col_blue');
+    $('.collapse').find('span').toggleClass('icon-up').toggleClass('icon-down');
+    $('.collapse').siblings(".top").toggle();
+}
+
+// 地图初始化。显示当前城市所有行政区 
+function initMap() {
+    var pArray = []
+    for(index in _fyInfo) {
+        var fy = _fyInfo[index]
+        pArray.push(new BMap.Point(fy.PointX,fy.PointY))
+        $("#xzq").append("<option value="+fy.dictId+">"+fy.RegionName+"</option>")
+    }
+    window.map = new BMap.Map("container", { enableMapClick: false }); // 创建地图实例，禁止点击地图底图
+    map.disableDoubleClickZoom()// 禁止双击缩放
+    map.enableScrollWheelZoom(true) // 支持滚动缩放
+    map.centerAndZoom(new BMap.Point(119.297721,26.087438), 13);
+    setTimeout(function () {
+        Areashows()
+    }, 100)
+}
+
+//点击大区事件
+function areaClick(areaId) {
+    /*获取地图数据*/
+ Villageshows(_sqInfo)
+}
+
+// 缩放，拖拽事件
+function noAreaClick() {
+    /*获取地图数据*/
+    Villageshows(_sqInfo)
+
+}
+
+// 花园小区点击事件
+function getHDetail(communityID) {
+    paramss['communityID'] = communityID
+    $('.collapse').click();//展示top栏
+    /*获取地图数据*/
+    setTemplate(hdInfo1)
+}
+
+
+
+
+
+</script>
+<!-- 不要改 -->
+<script type="text/javascript" src="fyfb.js" charset="utf-8"></script>    
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'>
+</script>
+<script>$.init()</script>
+</body>
+</html>
+
