@@ -20,7 +20,10 @@ map.addEventListener('zoomend', eventHandle)
 // 地图拖拽结束
 /****  centerAndZoom会触发moveend事件，且多次触发  ****/
 map.addEventListener('moveend', eventHandle)
+/****  百度地图 自定义覆盖物在移动设备上禁用了click事件  ****/
+/****  touchend 百度地图移动设备触摸事件  ****/
 map.addEventListener('touchend',function(e){
+	console.log(e.domEvent.srcElement)
     e.domEvent.srcElement.click()
 });
 function eventHandle(e) {
@@ -177,7 +180,7 @@ function setTemplate(houseInfoList) {
         for(var i = 0;i<houseInfoList.length;i++) {
             var content = 
             "<div class='dd_wrap clearfix'>"+
-                "<div class='ddw_left'><a href='#'><img src='"+houseInfoList[i].DefaultPic+"'></a></div>"+
+                "<div class='ddw_left'><a href='#'><img  src='"+houseInfoList[i].DefaultPic+"'></a></div>"+
                 "<div class='ddw_right'>"+
                     "<h1>"+houseInfoList[i].HouseInfo['Title']+"</h1>"+
                     "<p class='ddwr_p'>"+

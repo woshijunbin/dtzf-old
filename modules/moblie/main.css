@@ -1,0 +1,62 @@
+@charset "utf-8";
+
+*{margin:0px;padding: 0px;font-family: Helvetica,Arial,"Helvetica Neue","Droid Sans","Heiti SC","Microsoft YaHei",sans-serif;}
+ul,li{list-style: none;}
+html,body,.wrap,.right,#container{height:100%;}
+a{text-decoration: none;color: #000;}
+em{font-style: normal;}
+.clearfix{overflow: hidden;*zoom:1;}
+.hid{display: none;} 
+
+
+
+.mo_footer{background-color: #fff;position: absolute;bottom:0px;width: 100%;}
+.collapse{padding:10px 20px;border-bottom: 1px solid #e8e8e8;}
+.col_blue{color:#0894ec;}
+.content .wrap{font-size: 16px;}
+.top .s{height:3em;line-height:3em; float: left;width: 25%;text-align: center;border-bottom: 1px solid #e8e8e8;}
+.top .dd .dd_wrap{padding:1em;border-bottom: 1px solid #f2f2f2;}
+.top .dd .ddw_left{width: 30%;float: left;}
+.top .dd .ddw_left img{width: 100%;}
+.top .dd .ddw_right{margin-left: 35%;}
+.top .dd .ddw_right h1{line-height: 1.5em;font-size: 14px;margin: 0px;padding: 0px;}
+.top .dd .ddwr_p{color: #999;margin: 0px;padding: 0px;}
+.top .dd .ddwr_price{color: #F95656;}
+.top .dd .ddwr_aver {font-size: 12px;}
+
+
+/*  花园 自定义覆盖物  */
+.detail {position: relative;float: left;font-size: 14px;font-weight: bold; border-radius: 5px;}
+.detail_price{display: inline-block; padding: 6px; background-color: #FD7D7D;color: #fff;}
+.detail_deco{ background-color: #FFF;padding:6px;display: none;}
+.detail_deco em{color:red;}
+.detail_price{background-color:#F83333;color: #fff; }
+.detail_price~.san{border-top: 10px solid #F83333;}
+.detail_price+.detail_deco{display: inline-block;}
+.san{
+    position: absolute;
+    bottom: -10px;
+    left: 5px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid #FD7D7D;
+}
+
+.actions-modal-button.color-label{
+	font-size: 0.7rem;
+	line-height: 1.3;
+	min-height: 2.2rem;
+	padding: 0.4rem 0.5rem;
+	color: #5f646e;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
