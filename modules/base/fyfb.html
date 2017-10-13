@@ -10,7 +10,6 @@
     <title>房源分布</title>
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=evvQ1QHZGXraeG4yi6eXNPjFHLZGXwVT"></script>
-    <script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>    
     <script type="text/javascript" src="http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js"></script>
     <link rel="stylesheet" href="resources/layui/css/layui.css"  media="all">
     <link rel="stylesheet" type="text/css" href="modules/base/fyfb.css">
@@ -32,6 +31,24 @@
                     </select>
                     <input class="tt" type="text" name="" placeholder="输入小区">
                     <a href="javascript:;" onclick="h()"><i class="layui-icon" style="font-size: 20px;">&#xe615;</i>  </a>
+                </div>
+                <!-- s_input end -->
+				<!-- s_input start -->
+                <div class="ssy">
+                    <select class="provinces" name="province" lay-filter="">
+                        <option value="0">广东省</option>
+                        <option value="1">广西省</option>
+                    </select>
+					<select class="cityss" name="city" lay-filter="">
+                        <option value="0">汕头市</option>
+                        <option value="1">潮州市</option>
+                    </select>
+					<select class="functions" name="func" lay-filter="">
+						<option value="">用途</option>
+                        <option value="0">住宅</option>
+                        <option value="1">店铺</option>
+                    </select>
+                    <div class="clearfix"></div>
                 </div>
                 <!-- s_input end -->
                 <!-- s_select start -->
@@ -295,7 +312,7 @@ window.dis_close.onclick = function() {
 }
 // 设置左侧房源详细栏高度
 function setHeight() {
-	var he = $("#container").height() - 187
+	var he = $("#container").height() - 225
     $(".dd").css("maxHeight",he)
 }
 window.onload = setHeight

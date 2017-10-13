@@ -5,7 +5,10 @@
 html,body,.wrap,.right,#container{height:100%;}
 a{text-decoration: none;color: #000;}
 em{font-style: normal;}
-.clearfix{overflow: hidden;*zoom:1;}
+input::-ms-clear{display:none;}
+input::-ms-reveal{display:none;}
+.overflow{overflow: hidden;*zoom:1;}
+.clearfix{ clear:both;*zoom:1;}
 .shawdow{
     -moz-box-shadow: 2px 2px 1px #888888;
     -webkit-box-shadow: 2px 2px 1px #888888;
@@ -24,9 +27,17 @@ em{font-style: normal;}
 
 
 .s_input .layui-input,.s_input .tt,.s_input a{border:0px;height: 38px;line-height: 38px;}
-.s_input .layui-form-select{width: 100px;display: inline-block;border-right: 1px solid #e8e8e8;}
+.s_input .layui-form-select{float:left;width: 100px;border-right: 1px solid #e8e8e8;}
 .s_input .tt{margin-left: 10px; width: 270px;}
 .s_input a{display: inline-block;width: 30px;}
+
+
+.ssy{border-right: 1px solid #e8e8e8;}
+.ssy .layui-input{border: 0px;border-top: 1px solid #e8e8e8;}
+.ssy .layui-form-select{float: left;}
+.ssy .provinces+.layui-form-select{width: 50%;}
+.ssy .cityss+.layui-form-select{width: 25%;}
+.ssy .functions+.layui-form-select{width: 25%;}
 
 
 
