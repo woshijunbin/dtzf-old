@@ -13,12 +13,15 @@ input::-ms-reveal{display:none;}
     -moz-box-shadow: 2px 2px 1px #888888;
     -webkit-box-shadow: 2px 2px 1px #888888;
     box-shadow: 2px 2px 1px #888888;
+/*  
+    ie8 导致子定位元素无法溢出   
     -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#888888')";
     filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#888888');
-}
+ */
+ }
 
 /*  左侧栏  */
-.left{background-color: #fff; position: absolute; z-index: 99;  width:420px;top:20px;left:10px; border-radius: 4px;}
+.left{ background-color: #fff; position: absolute; z-index: 99;  width:420px;top:20px;left:10px; border-radius: 4px;}
 #dis_close{ border-radius: 0 4px 4px 0;z-index: 99; position: absolute;top:58px; left:430px; height: 50px;width: 20px;cursor: pointer;background: url(list_left_tab.png) repeat center center;    background-color: #fff;}
 #dis_close em {display: block; height: 100%; background: url(./indent_btn.png) left center no-repeat;}
 .left_hid{left:-420px !important;}
@@ -33,11 +36,11 @@ input::-ms-reveal{display:none;}
 
 
 .ssy{border-right: 1px solid #e8e8e8;}
-.ssy .layui-input{border: 0px;border-top: 1px solid #e8e8e8;}
+.ssy .layui-input{border: 0px;border-top: 1px solid #e8e8e8;border-left: 1px solid #e8e8e8;}
 .ssy .layui-form-select{float: left;}
-.ssy .provinces+.layui-form-select{width: 50%;}
-.ssy .cityss+.layui-form-select{width: 25%;}
-.ssy .functions+.layui-form-select{width: 25%;}
+.ssy .provinces+.layui-form-select{width: 33.3%;}
+.ssy .cityss+.layui-form-select{width:33.3%;}
+.ssy .functions+.layui-form-select{width: 33.3%;}
 
 
 
