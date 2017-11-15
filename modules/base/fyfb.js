@@ -23,12 +23,19 @@ map.addEventListener('touchstart',function(e){
 });
 function eventHandle(e) {
     var zoom = map.getZoom()
-    if(zoom >= 17) {
+   /* if(zoom >= 17) {
     	//areaClick：点击行政区执行的地图缩放
     	//noAreaClick：滚动地图缩放，鼠标拖拽
     	_areaId?areaClick(_areaId):noAreaClick()
+    	        
     }else {
         Areashows()
+    }*/
+    if(zoom<17) {
+        console.log(21334)
+        Areashows()
+    }else {
+        noAreaClick()
     }
 }
 
@@ -82,12 +89,15 @@ function Areashows() {
                 var that = this
                 map.getPanes().labelPane.appendChild(div)
                 div.onclick = function(e) {
+                    console.log(1232)
                     var divE = this
                     removeGroundOverlay()
                     // 记录行政区id，记录执行了点击行政区操作
                     _areaId = divE.data
                     map.removeEventListener("moveend", eventHandle);
+                    map.removeEventListener("zoomed", eventHandle);
                     resetMap(divE.data,fyInfo) 
+                    areaClick(_areaId)
                 }
                 return div
             }
@@ -116,7 +126,7 @@ function Villageshows(sqInfo) {
         if( sqInfo[i].SecondAveragePrice > 0) {
             var point = new BMap.Point(sqInfo[i].PointX, sqInfo[i].PointY)
            //VillageLabel = new BMap.Label("<div class='single_price clearfix'  onmouseenter='addZindex(this)'> <div class='single_price_left'><span class='single_price_num'>" + sqInfo[i].SecondAveragePrice + "万</span><em class='san'></em></div><span class='single_name' >  " + sqInfo[i].shopName+ "<em>"+sqInfo[i].HouNum + "</em>套</span></div></a> ",
-           VillageLabel = new BMap.Label("  <div class='detail shawdow' onclick = 'getHDetail("+ sqInfo[i].CommunityID+")'  onmouseenter='addZindex(this)'><a class='detail_price'>"+sqInfo[i].SecondAveragePrice+"<em>万</em></a><span class='detail_deco'>" + sqInfo[i].shopName+ "  <em>"+sqInfo[i].HouNum + "</em>套</span><em class='san'></em></div> ",
+           VillageLabel = new BMap.Label("  <div class='detail shawdow' onclick = 'getHDetail("+ sqInfo[i].CommunityID+")'  onmouseover='addZindex(this)'><a class='detail_price'>"+sqInfo[i].SecondAveragePrice+"<em>万</em></a><span class='detail_deco'>" + sqInfo[i].shopName+ "  <em>"+sqInfo[i].HouNum + "</em>套</span><em class='san'></em></div> ",
             {    
                 offset: new BMap.Size( - 35, -40),
                 position: point

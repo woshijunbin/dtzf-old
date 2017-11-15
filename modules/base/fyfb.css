@@ -72,7 +72,8 @@ input::-ms-reveal{display:none;}
 .detail_deco em{color:red;}
 .detail_price:hover{background-color:#F83333;color: #fff; }
 .detail_price:hover~.san{border-top: 10px solid #F83333;}
-.detail_price:hover+.detail_deco{display: inline-block;}
+.detail_price:hover+.detail_deco,.detail_deco:hover{display: inline-block;}
+
 .san{
     position: absolute;
     bottom: -10px;

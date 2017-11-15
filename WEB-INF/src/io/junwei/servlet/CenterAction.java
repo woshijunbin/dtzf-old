@@ -1,10 +1,7 @@
 package io.junwei.servlet;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -34,8 +31,6 @@ public class CenterAction extends HttpServlet {
 			for (String s : ss) {
 				sb.append(s);
 			}
-			// 查看前端是否传递正确参数
-			System.err.println(key+"::::"+sb.toString());
 		}
 		resp.getWriter().write("");
 	}
